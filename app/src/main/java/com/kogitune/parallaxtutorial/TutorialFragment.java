@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 /**
  * Created by takam on 2015/07/01.
  */
-public class TutorialFragment extends Fragment{
+public class TutorialFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -22,13 +22,7 @@ public class TutorialFragment extends Fragment{
         viewPager.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
-                return new Fragment() {
-                    @Nullable
-                    @Override
-                    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-                        return inflater.inflate(R.layout.tutorial_page, container, false);
-                    }
-                };
+                return new TutorialPageFragment();
             }
 
             @Override
@@ -42,12 +36,23 @@ public class TutorialFragment extends Fragment{
             public void transformPage(View page, float position) {
                 int pageWidth = page.getWidth();
                 final View backgroundView = page.findViewById(R.id.background);
-                ViewCompat.setTranslationX(backgroundView, pageWidth / 1.05f * position);
+                ViewCompat.setTranslationX(backgroundView, pageWidth * 0.5f * position);
                 final View objectView = page.findViewById(R.id.object);
                 ViewCompat.setAlpha(objectView, (1.0f - Math.abs(position)));
             }
         });
 
         return view;
+    }
+
+    public static class TutorialPageFragment extends Fragment {
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            if (savedInstanceState != null) {
+                return null;
+            }
+            return inflater.inflate(R.layout.tutorial_page, container, false);
+        }
     }
 }
